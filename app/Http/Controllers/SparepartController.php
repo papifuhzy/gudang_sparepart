@@ -7,10 +7,17 @@ use Illuminate\Http\Request;
 
 class SparepartController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $spareparts = Sparepart::orderBy('id', 'desc')->get();
-        return view('spareparts.index', compact('spareparts'));
+        $search = $request->get('search');
+        
+        $spareparts = Sparepart::when($search, function($query) use ($search) {
+                return $query->where('nama_sparepart', 'like', '%' . $search . '%');
+            })
+            ->orderBy('id', 'desc')
+            ->get();
+        
+        return view('spareparts.index', compact('spareparts', 'search'));
     }
 
     public function create()

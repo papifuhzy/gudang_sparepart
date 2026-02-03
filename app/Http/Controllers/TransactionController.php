@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Sparepart;
+use App\Services\EmailNotificationService;
 
 class TransactionController extends Controller
 {
+    protected EmailNotificationService $emailService;
+
+    public function __construct(EmailNotificationService $emailService)
+    {
+        $this->emailService = $emailService;
+    }
+
     public function index()
     {
         $transactions = Transaction::with('sparepart')
@@ -34,7 +42,7 @@ class TransactionController extends Controller
             return redirect()->back()->with('error', 'Stok tidak mencukupi');
         }
 
-        Transaction::create([
+        $transaction = Transaction::create([
             'sparepart_id' => $request->sparepart_id,
             'type' => $request->type,
             'quantity' => $request->quantity,
@@ -49,6 +57,17 @@ class TransactionController extends Controller
 
         $sparepart->save();
 
-        return redirect()->back()->with('success', 'Transaksi berhasil disimpan');
+        // Send transaction notification email
+        try {
+            $this->emailService->sendTransactionNotification($transaction->load('sparepart'));
+        } catch (\Exception $e) {
+            \Log::error('Email notification failed: ' . $e->getMessage());
+        }
+
+        // Note: Low stock alerts are now sent via bulk check, not per transaction
+        // to prevent email spam. Use Check Low Stock button in Notifications settings.
+
+        return redirect()->back()->with('success', 'Transaksi berhasil disimpan! Email notifikasi terkirim.');
     }
 }
+

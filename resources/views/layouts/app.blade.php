@@ -45,6 +45,10 @@
     <div class="sidebar">
     <h2>Gudang</h2>
 
+    <a href="{{ route('dashboard') }}">
+        📊 Dashboard
+    </a>
+
     <a href="{{ route('spareparts.index') }}">
         📦 Data Sparepart
     </a>
@@ -53,8 +57,12 @@
         🔄 Transaksi
     </a>
 
-    <a href="{{ route('dashboard') }}">
-        📊 Dashboard
+    <a href="{{ route('notifications.settings') }}">
+        📧 Notifikasi
+    </a>
+
+    <a href="{{ route('reports.index') }}">
+        📊 Laporan
     </a>
 </div>
 
