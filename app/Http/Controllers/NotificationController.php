@@ -20,10 +20,14 @@ class NotificationController extends Controller
      */
     public function settings()
     {
-        $email = config('mail.from.address');
+        // Load from JSON
+        $json = @file_get_contents(config_path('api_gmail.json'));
+        $config = $json ? json_decode($json, true) : [];
+        
+        $notification_email = $config['notification_settings']['notification_email'] ?? config('mail.from.address');
         
         return view('notifications.settings', [
-            'email' => $email,
+            'notification_email' => $notification_email,
             'threshold' => 10,
         ]);
     }

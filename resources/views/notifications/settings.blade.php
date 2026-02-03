@@ -32,7 +32,7 @@
         <table style="width: 100%; border-collapse: collapse;">
             <tr style="border-bottom: 1px solid #f1f3f5;">
                 <td style="padding: 12px 0; font-weight: 600; width: 35%; color: #495057;">Email Penerima</td>
-                <td style="padding: 12px 0; color: #212529;">{{ $email }}</td>
+                <td style="padding: 12px 0; color: #212529;">{{ $notification_email }}</td>
             </tr>
             <tr style="border-bottom: 1px solid #f1f3f5;">
                 <td style="padding: 12px 0; font-weight: 600; color: #495057;">Threshold Stok Rendah</td>
@@ -84,7 +84,7 @@
         <div style="color: #6c757d; font-size: 14px; line-height: 1.6;">
             <p style="margin: 0 0 10px 0;">
                 <strong style="color: #495057;">Service:</strong> Gmail SMTP<br>
-                <strong style="color: #495057;">Email:</strong> {{ $email }}
+                <strong style="color: #495057;">Email Penerima:</strong> {{ $notification_email }}
             </p>
             <p style="margin: 0;">
                 <strong style="color: #495057;">Dokumentasi:</strong> <code style="background: #e9ecef; padding: 2px 6px; border-radius: 3px;">config/api_gmail.json</code><br>

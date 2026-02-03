@@ -11,7 +11,14 @@ class EmailNotificationService
 
     public function __construct()
     {
-        $this->notificationEmail = config('mail.from.address');
+        // Read recipient email from JSON config
+        $json = @file_get_contents(config_path('api_gmail.json'));
+        if ($json) {
+            $config = json_decode($json, true);
+            $this->notificationEmail = $config['notification_settings']['notification_email'] ?? config('mail.from.address');
+        } else {
+            $this->notificationEmail = config('mail.from.address');
+        }
     }
 
     /**
