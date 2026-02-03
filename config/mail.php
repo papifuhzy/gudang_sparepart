@@ -6,11 +6,6 @@ return [
     |--------------------------------------------------------------------------
     | Default Mailer
     |--------------------------------------------------------------------------
-    |
-    | This option controls the default mailer that is used to send any email
-    | messages sent by your application. Alternative mailers may be setup
-    | and used as needed; however, this mailer will be used by default.
-    |
     */
 
     'default' => env('MAIL_MAILER', 'smtp'),
@@ -19,28 +14,52 @@ return [
     |--------------------------------------------------------------------------
     | Mailer Configurations
     |--------------------------------------------------------------------------
-    |
-    | Here you may configure all of the mailers used by your application plus
-    | their respective settings. Several examples have been configured for
-    | you and you are free to add your own as your application requires.
-    |
-    | Laravel supports a variety of mail "transport" drivers to be used while
-    | sending an e-mail. You will specify which one you are using for your
-    | mailers below. You are free to add additional mailers as required.
-    |
-    | Supported: "smtp", "sendmail", "mailgun", "ses",
-    |            "postmark", "log", "array", "failover"
-    |
+    | Modified to read from config/api_gmail.json for assignment requirements
     */
 
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => (function() {
+                $json = @file_get_contents(config_path('api_gmail.json'));
+                if ($json) {
+                    $config = json_decode($json, true);
+                    return $config['api']['smtp_host'] ?? env('MAIL_HOST', 'smtp.gmail.com');
+                }
+                return env('MAIL_HOST', 'smtp.gmail.com');
+            })(),
+            'port' => (function() {
+                $json = @file_get_contents(config_path('api_gmail.json'));
+                if ($json) {
+                    $config = json_decode($json, true);
+                    return $config['api']['smtp_port'] ?? env('MAIL_PORT', 587);
+                }
+                return env('MAIL_PORT', 587);
+            })(),
+            'encryption' => (function() {
+                $json = @file_get_contents(config_path('api_gmail.json'));
+                if ($json) {
+                    $config = json_decode($json, true);
+                    return strtolower($config['api']['encryption'] ?? 'tls');
+                }
+                return env('MAIL_ENCRYPTION', 'tls');
+            })(),
+            'username' => (function() {
+                $json = @file_get_contents(config_path('api_gmail.json'));
+                if ($json) {
+                    $config = json_decode($json, true);
+                    return $config['api']['email'] ?? env('MAIL_USERNAME');
+                }
+                return env('MAIL_USERNAME');
+            })(),
+            'password' => (function() {
+                $json = @file_get_contents(config_path('api_gmail.json'));
+                if ($json) {
+                    $config = json_decode($json, true);
+                    return $config['api']['app_password'] ?? env('MAIL_PASSWORD');
+                }
+                return env('MAIL_PASSWORD');
+            })(),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -84,27 +103,32 @@ return [
     |--------------------------------------------------------------------------
     | Global "From" Address
     |--------------------------------------------------------------------------
-    |
-    | You may wish for all e-mails sent by your application to be sent from
-    | the same address. Here, you may specify a name and address that is
-    | used globally for all e-mails that are sent by your application.
-    |
+    | Modified to read from config/api_gmail.json
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => (function() {
+            $json = @file_get_contents(config_path('api_gmail.json'));
+            if ($json) {
+                $config = json_decode($json, true);
+                return $config['api']['email'] ?? env('MAIL_FROM_ADDRESS', 'hello@example.com');
+            }
+            return env('MAIL_FROM_ADDRESS', 'hello@example.com');
+        })(),
+        'name' => (function() {
+            $json = @file_get_contents(config_path('api_gmail.json'));
+            if ($json) {
+                $config = json_decode($json, true);
+                return $config['notification_settings']['from_name'] ?? env('MAIL_FROM_NAME', 'Gudang Sparepart');
+            }
+            return env('MAIL_FROM_NAME', 'Gudang Sparepart');
+        })(),
     ],
 
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
     |--------------------------------------------------------------------------
-    |
-    | If you are using Markdown based email rendering, you may configure your
-    | theme and component paths here, allowing you to customize the design
-    | of the emails. Or, you may simply stick with the Laravel defaults!
-    |
     */
 
     'markdown' => [

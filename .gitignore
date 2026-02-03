@@ -5,6 +5,10 @@
 /vendor
 .env
 .env.backup
+
+# Gmail API credentials (contains sensitive app password)
+/config/api_gmail.json
+
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
