@@ -64,6 +64,13 @@
     <a href="{{ route('reports.index') }}">
         📊 Laporan
     </a>
+
+    <form method="POST" action="{{ route('logout') }}" style="margin-top: 30px;">
+        @csrf
+        <button type="submit" style="width: 100%; background: #dc3545; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 14px;">
+            Logout
+        </button>
+    </form>
 </div>
 
 
