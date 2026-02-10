@@ -1,0 +1,43 @@
+{
+    "description": "Gmail API Configuration untuk Sistem Notifikasi Gudang Sparepart",
+    "project": "Gudang Sparepart Computer",
+    "created_date": "2026-02-03",
+    "api": {
+        "type": "Gmail SMTP",
+        "provider": "Google Gmail",
+        "smtp_host": "smtp.gmail.com",
+        "smtp_port": 587,
+        "encryption": "TLS",
+        "email": "mochamadyogiadypratama@gmail.com",
+        "app_password": "bhpk btry izmq chza",
+        "description": "Gmail SMTP untuk kirim notifikasi email otomatis",
+        "documentation": "https://support.google.com/mail/answer/7126229"
+    },
+    "notification_settings": {
+        "low_stock_threshold": 10,
+        "enable_email": true,
+        "notification_email": "mochamadyogiadypratama@gmail.com",
+        "from_name": "Gudang Sparepart System"
+    },
+    "features": {
+        "low_stock_alert": "Email dikirim otomatis jika stok < threshold",
+        "transaction_notification": "Email dikirim setiap transaksi IN/OUT",
+        "inventory_report": "Laporan lengkap inventori via email",
+        "html_templates": "Email dengan desain HTML professional"
+    },
+    "setup_instructions": {
+        "step_1": "Buat App Password di Gmail: https://myaccount.google.com/apppasswords",
+        "step_2": "Pilih App: Mail, Device: Windows Computer",
+        "step_3": "Copy 16-digit password",
+        "step_4": "Tambahkan ke .env: MAIL_USERNAME dan MAIL_PASSWORD",
+        "step_5": "Jalankan: php artisan config:clear",
+        "step_6": "Test via halaman Notification Settings"
+    },
+    "usage": {
+        "test_email": "Kirim test email dari settings page",
+        "transaction_notification": "Buat transaksi → Email otomatis terkirim",
+        "low_stock_alert": "Edit stok < 10 → Alert email terkirim",
+        "manual_report": "Kirim laporan inventori → Email dengan tabel lengkap",
+        "check_inbox": "Login ke mochamadyogiadypratama@gmail.com untuk lihat email masuk"
+    }
+}
