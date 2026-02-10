@@ -9,7 +9,7 @@
         }
         .wrapper {
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
         }
         .sidebar {
             width: 220px;
